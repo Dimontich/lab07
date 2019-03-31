@@ -10,50 +10,95 @@ $ open https://git-scm.com
 ## Tasks
 
 - [x] 1. Создать публичный репозиторий с названием **lab02** и с лиценцией **MIT**
-- [ ] 2. Сгенирировать токен для доступа к сервису **GitHub** с правами **repo**
-- [ ] 3. Ознакомиться со ссылками учебного материала
-- [ ] 4. Выполнить инструкцию учебного материала
-- [ ] 5. Составить отчет и отправить ссылку личным сообщением в **Slack**
+- [x] 2. Сгенирировать токен для доступа к сервису **GitHub** с правами **repo**
+- [x] 3. Ознакомиться со ссылками учебного материала
+- [x] 4. Выполнить инструкцию учебного материала
+- [x] 5. Составить отчет и отправить ссылку личным сообщением в **Slack**
 
 ## Tutorial
 
 ```ShellSession
-$ export GITHUB_USERNAME=<имя_пользователя>
-$ export GITHUB_EMAIL=<адрес_почтового_ящика>
-$ export GITHUB_TOKEN=<сгенирированный_токен>
-$ alias edit=<nano|vi|vim|subl>
+$ export GITHUB_USERNAME=Dimontich    # Установка переменной GITHUB_USERNAME
+$ xport GITHUB_EMAIL=dimasek28@gmail.com  # Установка переменной GITHUB_EMAIL
+$ xport GITHUB_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx # Установка переменной GITHUB_TOKEN
+$ lias edit=nano      # Установка синонима команды edit
 ```
 
 ```ShellSession
-$ cd ${GITHUB_USERNAME}/workspace
-$ source scripts/activate
+$ cd ${GITHUB_USERNAME}/workspace    # Переход в папку workspace
+$ source scripts/activate           # Выполнение скрипта 
 ```
 
 ```ShellSession
-$ mkdir ~/.config
-$ cat > ~/.config/hub <<EOF
+$ mkdir ~/.config         # Создание папки с конфигами
+mkdir: cannot create directory ‘/home/dmitrij/.config’: File exists
+$ cat > ~/.config/hub <<EOF      # Создание файла конфига hub и запись в него
 github.com:
 - user: ${GITHUB_USERNAME}
   oauth_token: ${GITHUB_TOKEN}
   protocol: https
 EOF
-$ git config --global hub.protocol https
+$ git config --global hub.protocol https       # Установка переменной git
 ```
 
 ```ShellSession
-$ mkdir projects/lab02 && cd projects/lab02
-$ git init
-$ git config --global user.name ${GITHUB_USERNAME}
-$ git config --global user.email ${GITHUB_EMAIL}
-# check your git global settings
-$ git config -e --global
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab02.git
-$ git pull origin master
-$ touch README.md
-$ git status
-$ git add README.md
-$ git commit -m"added README.md"
-$ git push origin master
+$ mkdir projects/lab02 && cd projects/lab02   # Создание папки и переход в нее
+$ git init    # Создание пустого репозиторий
+Initialized empty Git repository in /home/dmitrij/Documents/Dimontich/workspace/projects/lab02/.git/
+$ git config --global user.name ${GITHUB_USERNAME} # Установка переменной user.name 
+$ git config --global user.email ${GITHUB_EMAIL} # Установка переменной user.email для
+# check your git global settings.  
+$ git config -e --global  # Вывод всего конфига из git
+[user]
+        email = dimasek28@gmail.com.com
+        name = Dimontich
+[hub]
+        protocol = https
+
+
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab02.git # Добавление ссылки на репозиторий на giyhub
+$ git pull origin master # Перенос изменений
+/* remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), done.
+From https://github.com/Dimontich/lab02
+ * branch            master     -> FETCH_HEAD
+ * [new branch]      master     -> origin/master */
+                                
+
+$ touch README.md.   # Создать README.md
+$ git status. # Посмотреть статус репозитория
+/* On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        README.md
+
+nothing added to commit but untracked files present (use "git add" to track)
+*/
+
+
+
+$ git add README.md.  # Добавить README.md в список фиксированных
+$ git commit -m"added README.md" # Закоммитить фиксированные изменения
+ 
+ [master 44830ab] added README.md
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 README.md
+
+$ git push origin master    # Отправить изменения на гитхаб
+/*Username for 'https://github.com': Dimontich
+Password for 'https://Dimontich@github.com': 
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 277 bytes | 408.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To https://github.com/Dimontich/lab02.git
+   fb79117..44830ab  master -> master*/
 ```
 
 Добавить на сервисе **GitHub** в репозитории **lab02** файл **.gitignore**
@@ -65,17 +110,32 @@ $ git push origin master
 *.swp
 .idea/
 ```
+Перенос изменений
 
 ```ShellSession
-$ git pull origin master
-$ git log
+$ git pull origin master # Перенос изменений
+remote: Enumerating objects: 4, done.
+remote: Counting objects: 100% (4/4), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), done.
+From https://github.com/Dimontich/lab02
+ * branch            master     -> FETCH_HEAD
+   44830ab..c52a23e  master     -> origin/master
+Updating 44830ab..c52a23e
+Fast-forward
+ .gitignore | 4 ++++
+ 1 file changed, 4 insertions(+)
+ create mode 100644 .gitignore
+
+$ git log.  # Просмотр коммитов
 ```
 
 ```ShellSession
-$ mkdir sources
-$ mkdir include
-$ mkdir examples
-$ cat > sources/print.cpp <<EOF
+$ mkdir sources.  # Создание папки sources
+$ mkdir include   # Создание папки include
+$ mkdir examples.   # Создание папки examples
+$ cat > sources/print.cpp <<EOF. # Запись кода в файл
 #include <print.hpp>
 
 void print(const std::string& text, std::ostream& out)
@@ -102,7 +162,7 @@ EOF
 ```
 
 ```ShellSession
-$ cat > examples/example1.cpp <<EOF
+$ cat > examples/example1.cpp <<EOF  # Запись кода в файл
 #include <print.hpp>
 
 int main(int argc, char** argv)
@@ -111,9 +171,9 @@ int main(int argc, char** argv)
 }
 EOF
 ```
-
+Создание файла с кодом
 ```ShellSession
-$ cat > examples/example2.cpp <<EOF
+$ cat > examples/example2.cpp <<EOF # Запись кода в файл
 #include <print.hpp>
 
 #include <fstream>
@@ -125,16 +185,34 @@ int main(int argc, char** argv)
 }
 EOF
 ```
+Редактирование README.md
 
 ```ShellSession
-$ edit README.md
+
+$ edit README.mdm.   # Редактировать README.md
 ```
 
 ```ShellSession
-$ git status
-$ git add .
-$ git commit -m"added sources"
-$ git push origin master
+$ git status # Просмотр статуса репозитория
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   README.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        examples/
+        include/
+        sources/
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+$ git add  # Фиксация всех изменений
+$ git commit -m"added sources"      # Коммит зафиксированных изменений
+$ git push origin master   # Отправка изменений на гитхаб
 ```
 
 ## Report
