@@ -71,13 +71,17 @@ remote: Total 9 (delta 1), reused 0 (delta 0), pack-reused 0
 
 $ touch README.md.   # Создать README.md
 $ git status. # Посмотреть статус репозитория
-/* On branch master
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
+/*
+На ветке master
+Неотслеживаемые файлы:
+  (используйте «git add <файл>…», чтобы добавить в то, что будет включено в коммит)
 
-        README.md
+	README.md.
+	node/
+	scripts/
 
-nothing added to commit but untracked files present (use "git add" to track)
+ничего не добавлено в коммит, но есть неотслеживаемые файлы (используйте «git add», чтобы отслеживать их)
+
 */
 
 
@@ -85,9 +89,16 @@ nothing added to commit but untracked files present (use "git add" to track)
 $ git add README.md.  # Добавить README.md в список фиксированных
 $ git commit -m"added README.md" # Закоммитить фиксированные изменения
  
- [master 44830ab] added README.md
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 README.md
+ t -m"added README.md"
+На ветке master
+Неотслеживаемые файлы:
+	README.md.
+	node/
+	scripts/
+
+ничего не добавлено в коммит, но есть неотслеживаемые файлы
+
+ 
 
 $ git push origin master    # Отправить изменения на гитхаб
 /*Username for 'https://github.com': Dimontich
