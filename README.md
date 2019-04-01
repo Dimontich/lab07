@@ -58,14 +58,15 @@ $ git config -e --global  # Вывод всего конфига из git
 
 $ git remote add origin https://github.com/${GITHUB_USERNAME}/lab02.git # Добавление ссылки на репозиторий на giyhub
 $ git pull origin master # Перенос изменений
-/* remote: Enumerating objects: 3, done.
-remote: Counting objects: 100% (3/3), done.
-remote: Compressing objects: 100% (2/2), done.
-remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
-Unpacking objects: 100% (3/3), done.
-From https://github.com/Dimontich/lab02
+/* origin master
+remote: Enumerating objects: 9, done.
+remote: Counting objects: 100% (9/9), done.
+remote: Compressing objects: 100% (8/8), done.
+remote: Total 9 (delta 1), reused 0 (delta 0), pack-reused 0
+Распаковка объектов: 100% (9/9), готово.
+Из https://github.com/Dimontich/lab02
  * branch            master     -> FETCH_HEAD
- * [new branch]      master     -> origin/master */
+ * [новая ветка]     master     -> origin/master */
                                 
 
 $ touch README.md.   # Создать README.md
