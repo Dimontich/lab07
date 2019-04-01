@@ -19,9 +19,9 @@ $ open https://git-scm.com
 
 ```ShellSession
 $ export GITHUB_USERNAME=Dimontich    # Установка переменной GITHUB_USERNAME
-$ xport GITHUB_EMAIL=dimasek28@gmail.com  # Установка переменной GITHUB_EMAIL
-$ xport GITHUB_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx # Установка переменной GITHUB_TOKEN
-$ lias edit=nano      # Установка синонима команды edit
+$ export GITHUB_EMAIL=dimasek28@gmail.com  # Установка переменной GITHUB_EMAIL
+$ export GITHUB_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx # Установка переменной GITHUB_TOKEN
+$ alias edit=nano      # Установка синонима команды edit
 ```
 
 ```ShellSession
