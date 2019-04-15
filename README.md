@@ -101,16 +101,17 @@ $ git commit -m"added README.md" # Закоммитить фиксированн
  
 
 $ git push origin master    # Отправить изменения на гитхаб
-/*Username for 'https://github.com': Dimontich
+/*rigin master
+Username for 'https://github.com': Dimontich
 Password for 'https://Dimontich@github.com': 
-Enumerating objects: 4, done.
-Counting objects: 100% (4/4), done.
-Delta compression using up to 4 threads
-Compressing objects: 100% (2/2), done.
-Writing objects: 100% (3/3), 277 bytes | 408.00 KiB/s, done.
+Подсчет объектов: 3, готово.
+Delta compression using up to 4 threads.
+Сжатие объектов: 100% (2/2), готово.
+Запись объектов: 100% (3/3), 304 bytes | 304.00 KiB/s, готово.
 Total 3 (delta 0), reused 0 (delta 0)
 To https://github.com/Dimontich/lab02.git
-   fb79117..44830ab  master -> master*/
+   d0718ca..db6f93f  master -> master
+*/
 ```
 
 Добавить на сервисе **GitHub** в репозитории **lab02** файл **.gitignore**
