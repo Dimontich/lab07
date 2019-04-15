@@ -127,19 +127,20 @@ To https://github.com/Dimontich/lab02.git
 
 ```ShellSession
 $ git pull origin master # Перенос изменений
-remote: Enumerating objects: 4, done.
-remote: Counting objects: 100% (4/4), done.
-remote: Compressing objects: 100% (2/2), done.
-remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
-Unpacking objects: 100% (3/3), done.
-From https://github.com/Dimontich/lab02
+/*rigin master
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+Распаковка объектов: 100% (3/3), готово.
+Из https://github.com/Dimontich/lab02
  * branch            master     -> FETCH_HEAD
-   44830ab..c52a23e  master     -> origin/master
-Updating 44830ab..c52a23e
+   db6f93f..3f930a2  master     -> origin/master
+Обновление db6f93f..3f930a2
 Fast-forward
- .gitignore | 4 ++++
- 1 file changed, 4 insertions(+)
- create mode 100644 .gitignore
+ README.md | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)*/
+
 
 $ git log.  # Просмотр коммитов
 ```
