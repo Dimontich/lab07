@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Dimontich/lab05.svg?branch=master)](https://travis-ci.org/Dimontich/lab05)
+
 ## Laboratory work V
 
 Данная лабораторная работа посвещена изучению фреймворков для тестирования на примере **GTest**
