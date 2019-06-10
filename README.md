@@ -1,31 +1,25 @@
-[![Build Status](https://travis-ci.org/Dimontich/lab05.svg?branch=master)](https://travis-ci.org/Dimontich/lab05)
+## Laboratory work V
 
-## Laboratory work IV
-
-Данная лабораторная работа посвещена изучению систем непрерывной интеграции на примере сервиса **Travis CI**
+Данная лабораторная работа посвещена изучению фреймворков для тестирования на примере **GTest**
 
 ```ShellSession
-$ open https://travis-ci.org
+$ open https://github.com/google/googletest
 ```
 
 ## Tasks
 
-- [x] 1. Авторизоваться на сервисе **Travis CI** с использованием **GitHub** аккаунта
-- [x] 2. Создать публичный репозиторий с названием **lab05** на сервисе **GitHub**
+- [x] 1. Создать публичный репозиторий с названием **lab05** на сервисе **GitHub**
+- [x] 2. Выполнить инструкцию учебного материала
 - [x] 3. Ознакомиться со ссылками учебного материала
-- [x] 4. Включить интеграцию сервиса **Travis CI** с созданным репозиторием
-- [x] 5. Получить токен для **Travis CLI** с правами **repo** и **user**
-- [x] 6. Получить фрагмент вставки значка сервиса **Travis CI** в формате **Markdown**
-- [x] 7. Выполнить инструкцию учебного материала
-- [x] 8. Составить отчет и отправить ссылку личным сообщением в **Slack**
+- [x] 4. Составить отчет и отправить ссылку личным сообщением в **Slack**
 
 ## Tutorial
 
-Установка переменной
+Установка переменных
 
 ```ShellSession
-$ export GITHUB_USERNAME=Dimontich   # Установка переменной GITHUB_USERNAME
-$ export GITHUB_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXX   # Установка переменной GITHUB_TOKEN
+$ export GITHUB_USERNAME=Dimontich  # Установка переменной GITHUB_USERNAME
+$ alias gsed=sed # for *-nix system     # Установка команды gsed
 ```
 
 Подготовка
@@ -38,189 +32,223 @@ $ source scripts/activate       # Выполнение скрипта
 ```
 
 ```ShellSession
-$ \curl -sSL https://get.rvm.io | bash -s -- --ignore-dotfiles    # Установка rvm (ruby version manager)
-Turning on ignore dotfiles mode.
-Downloading https://github.com/rvm/rvm/archive/master.tar.gz
-Creating group 'rvm'
-Installing RVM to /usr/local/rvm/
-Installation of RVM in /usr/local/rvm/ is almost complete:
-
-  * First you need to add all users that will be using rvm to 'rvm' group,
-    and logout - login again, anyone using rvm will be operating with `umask u=rwx,g=rwx,o=rx`.
-
-  * To start using RVM you need to run `source /etc/profile.d/rvm.sh`
-    in all your open shell windows, in rare cases you need to reopen all shell windows.
-  * Please do NOT forget to add your users to the rvm group.
-     The installer no longer auto-adds root or users to the rvm group. Admins must do this.
-     Also, please note that group memberships are ONLY evaluated at login time.
-     This means that users must log out then back in before group membership takes effect!
-Thanks for installing RVM 🙏
-Please consider donating to our open collective to help us maintain RVM.
-
-👉  Donate: https://opencollective.com/rvm/donate
-$ echo "source /etc/profile.d/rvm.sh" >> scripts/activate    # Добавление команды для запуска RVM в скрипт
-$ . scripts/activate    # Выполнение скрипта (для запуска RVM)
-$ rvm autolibs disable      # Не устанавливать зависимости
-# Установить ruby 2.4.2
-$ rvm install ruby-2.4.2 # (понадобилось также установить bzip2, zlib1g-dev)
-ruby-2.4.2 - #removing src/ruby-2.4.2..
-ruby-2.4.2 - #removing rubies/ruby-2.4.2..
-Searching for binary rubies, this might take some time.
-No binary rubies available for: debian/9/x86_64/ruby-2.4.2.
-Continuing with compilation. Please read 'rvm help mount' to get more information on binary rubies.
-Installing Ruby from source to: /usr/local/rvm/rubies/ruby-2.4.2, this may take a while depending on your cpu(s)...
-ruby-2.4.2 - #downloading ruby-2.4.2, this may take a while depending on your connection...
-ruby-2.4.2 - #extracting ruby-2.4.2 to /usr/local/rvm/src/ruby-2.4.2.....
-ruby-2.4.2 - #configuring..................................................................
-ruby-2.4.2 - #post-configuration..
-ruby-2.4.2 - #compiling.............................................................................................-
-ruby-2.4.2 - #installing...........
-ruby-2.4.2 - #making binaries executable..
-ruby-2.4.2 - #downloading rubygems-3.0.3
-ruby-2.4.2 - #extracting rubygems-3.0.3......
-ruby-2.4.2 - #removing old rubygems........
-$LANG was empty, setting up LANG=C, if it fails again try setting LANG to something sane and try again.
-ruby-2.4.2 - #installing rubygems-3.0.3...................................
-ruby-2.4.2 - #gemset created /usr/local/rvm/gems/ruby-2.4.2@global
-ruby-2.4.2 - #importing gemset /usr/local/rvm/gemsets/global.gemsthere was an error installing gem rubygems-bundler
-.................................................................
-ruby-2.4.2 - #generating global wrappers.......
-ruby-2.4.2 - #gemset created /usr/local/rvm/gems/ruby-2.4.2
-ruby-2.4.2 - #importing gemsetfile /usr/local/rvm/gemsets/default.gems evaluated to empty gem list
-ruby-2.4.2 - #generating default wrappers.......
-ruby-2.4.2 - #adjusting #shebangs for (gem irb erb ri rdoc testrb rake).
-Install of ruby-2.4.2 - #complete 
-Ruby was built without documentation, to build it run: rvm docs generate-ri
-Making gemset ruby-2.4.2 pristine................................................................
-Making gemset ruby-2.4.2@global pristine.................................................................
-$ rvm use 2.4.2 --default   # Использовать ruby 2.4.2 по умолчанию
-Using /usr/local/rvm/gems/ruby-2.4.2
-$ gem install travis        # Установить пакет travis
-Fetching multipart-post-2.1.1.gem
-Fetching faraday-0.15.4.gem
-Fetching faraday_middleware-0.13.1.gem
-Fetching highline-1.7.10.gem
-Fetching backports-3.15.0.gem
-Fetching multi_json-1.13.1.gem
-Fetching addressable-2.4.0.gem
-Fetching net-http-persistent-2.9.4.gem
-Fetching net-http-pipeline-1.0.1.gem
-Fetching gh-0.15.1.gem
-Fetching launchy-2.4.3.gem
-Fetching ffi-1.11.1.gem
-Fetching ethon-0.12.0.gem
-Fetching typhoeus-0.8.0.gem
-Fetching websocket-1.2.8.gem
-Fetching pusher-client-0.6.2.gem
-Fetching travis-1.8.10.gem
-Successfully installed multipart-post-2.1.1
-Successfully installed faraday-0.15.4
-Successfully installed faraday_middleware-0.13.1
-Successfully installed highline-1.7.10
-Successfully installed backports-3.15.0
-Successfully installed multi_json-1.13.1
-Successfully installed addressable-2.4.0
-Successfully installed net-http-persistent-2.9.4
-Successfully installed net-http-pipeline-1.0.1
-Successfully installed gh-0.15.1
-Successfully installed launchy-2.4.3
-Building native extensions. This could take a while...
-Successfully installed ffi-1.11.1
-Successfully installed ethon-0.12.0
-Successfully installed typhoeus-0.8.0
-Successfully installed websocket-1.2.8
-Successfully installed pusher-client-0.6.2
-Successfully installed travis-1.8.10
-Parsing documentation for multipart-post-2.1.1
-Installing ri documentation for multipart-post-2.1.1
-Parsing documentation for faraday-0.15.4
-Installing ri documentation for faraday-0.15.4
-Parsing documentation for faraday_middleware-0.13.1
-Installing ri documentation for faraday_middleware-0.13.1
-Parsing documentation for highline-1.7.10
-Installing ri documentation for highline-1.7.10
-Parsing documentation for backports-3.15.0
-Installing ri documentation for backports-3.15.0
-Parsing documentation for multi_json-1.13.1
-Installing ri documentation for multi_json-1.13.1
-Parsing documentation for addressable-2.4.0
-Installing ri documentation for addressable-2.4.0
-Parsing documentation for net-http-persistent-2.9.4
-Installing ri documentation for net-http-persistent-2.9.4
-Parsing documentation for net-http-pipeline-1.0.1
-Installing ri documentation for net-http-pipeline-1.0.1
-Parsing documentation for gh-0.15.1
-Installing ri documentation for gh-0.15.1
-Parsing documentation for launchy-2.4.3
-Installing ri documentation for launchy-2.4.3
-Parsing documentation for ffi-1.11.1
-Installing ri documentation for ffi-1.11.1
-Parsing documentation for ethon-0.12.0
-Installing ri documentation for ethon-0.12.0
-Parsing documentation for typhoeus-0.8.0
-Installing ri documentation for typhoeus-0.8.0
-Parsing documentation for websocket-1.2.8
-Installing ri documentation for websocket-1.2.8
-Parsing documentation for pusher-client-0.6.2
-Installing ri documentation for pusher-client-0.6.2
-Parsing documentation for travis-1.8.10
-Installing ri documentation for travis-1.8.10
-Done installing documentation for multipart-post, faraday, faraday_middleware, highline, backports, multi_json, addressable, net-http-persistent, net-http-pipeline, gh, launchy, ffi, ethon, typhoeus, websocket, pusher-client, travis after 19 seconds
-17 gems installed
-```
-
-Получить необходимые файлы
-
-```ShellSession
-$ git clone https://github.com/${GITHUB_USERNAME}/lab03 projects/lab05  # Клонирование репо
+$ git clone https://github.com/${GITHUB_USERNAME}/lab04 projects/lab05  # Клонирование репо
+Cloning into 'projects/lab05'...
+remote: Enumerating objects: 51, done.
+remote: Counting objects: 100% (51/51), done.
+remote: Compressing objects: 100% (35/35), done.
+remote: Total 51 (delta 13), reused 47 (delta 12), pack-reused 0
+Unpacking objects: 100% (51/51), done.
 $ cd projects/lab05   # Переход в директорию
 $ git remote remove origin    # Удаление ссылки на репозиторий
 $ git remote add origin https://github.com/${GITHUB_USERNAME}/lab05  # Добавление ссылки на репозиторий
 ```
 
-Добавить в конфиг travis информацию о языке (отвечает за дополнительные пакеты, которые будут установлены (например, g++ gcc))
+Скачиваем библиотеку GTest
 
 ```ShellSession
-$ cat > .travis.yml <<EOF
-language: cpp
+$ mkdir third-party             # Создание директории
+$ git submodule add https://github.com/google/googletest third-party/gtest   # Добавление подмодуля git
+Cloning into '/Dimontich/workspace/projects/lab05/third-party/gtest'...
+remote: Enumerating objects: 16892, done.
+remote: Total 16892 (delta 0), reused 0 (delta 0), pack-reused 16892
+Receiving objects: 100% (16892/16892), 5.96 MiB | 4.62 MiB/s, done.
+Resolving deltas: 100% (12445/12445), done.
+$ cd third-party/gtest && git checkout release-1.8.1 && cd ../..        # Переход на тэг release-1.8.1 в подмодуле git
+Note: checking out 'release-1.8.1'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b <new-branch-name>
+
+HEAD is now at 2fe3bd99... Merge pull request #1433 from dsacre/fix-clang-warnings
+$ git add third-party/gtest                 # Фиксируем
+$ git commit -m"added gtest framework"      # Коммитим
+[master ead2839] added gtest framework
+ 2 files changed, 4 insertions(+)
+ create mode 100644 .gitmodules
+ create mode 160000 third-party/gtest
+```
+
+Добавление GTest в конфигурацию проекта
+
+```ShellSession
+# Добавление опции BUILD_TESTS (по умолчанию выкл)
+$ gsed -i '/option(BUILD_EXAMPLES "Build examples" OFF)/a\
+option(BUILD_TESTS "Build tests" OFF)
+' CMakeLists.txt
+
+# Добавление блока с тестами
+$ cat >> CMakeLists.txt <<EOF
+
+if(BUILD_TESTS)
+  enable_testing()
+  add_subdirectory(third-party/gtest)
+  file(GLOB \${PROJECT_NAME}_TEST_SOURCES tests/*.cpp)
+  add_executable(check \${\${PROJECT_NAME}_TEST_SOURCES})
+  target_link_libraries(check \${PROJECT_NAME} gtest_main)
+  add_test(NAME check COMMAND check)
+endif()
 EOF
 ```
 
-Добавить в конфиг travis команды, которые будут выполнены после загрузки и установки 
+Исходный код тестов
 
 ```ShellSession
-$ cat >> .travis.yml <<EOF
+$ mkdir tests           # Создание директории с тестами
+$ cat > tests/test1.cpp <<EOF       # Пишем код
+#include <print.hpp>
 
-script:
-- cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install
-- cmake --build _build
-- cmake --build _build --target install
+#include <gtest/gtest.h>
+
+TEST(Print, InFileStream)
+{
+  std::string filepath = "file.txt";
+  std::string text = "hello";
+  std::ofstream out{filepath};
+
+  print(text, out);
+  out.close();
+
+  std::string result;
+  std::ifstream in{filepath};
+  in >> result;
+
+  EXPECT_EQ(result, text);
+}
 EOF
 ```
 
-Добавить в конфиг travis информацию об установке пакетов
+Сборка с тестами
 
 ```ShellSession
-$ cat >> .travis.yml <<EOF
+$ cmake -H. -B_build -DBUILD_TESTS=ON   # Конфигурирование
+-- The C compiler identification is GNU 6.3.0
+-- The CXX compiler identification is GNU 6.3.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Could NOT find PythonInterp (missing:  PYTHON_EXECUTABLE) 
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Looking for pthread_create
+-- Looking for pthread_create - not found
+-- Check if compiler accepts -pthread
+-- Check if compiler accepts -pthread - yes
+-- Found Threads: TRUE  
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Dimontich/workspace/projects/lab05/_build
+$ cmake --build _build                  # Сборка
+Scanning dependencies of target print
+[  8%] Building CXX object CMakeFiles/print.dir/sources/print.cpp.o
+[ 16%] Linking CXX static library libprint.a
+[ 16%] Built target print
+Scanning dependencies of target gtest
+[ 25%] Building CXX object third-party/gtest/googlemock/gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+[ 33%] Linking CXX static library libgtest.a
+[ 33%] Built target gtest
+Scanning dependencies of target gtest_main
+[ 41%] Building CXX object third-party/gtest/googlemock/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+[ 50%] Linking CXX static library libgtest_main.a
+[ 50%] Built target gtest_main
+Scanning dependencies of target check
+[ 58%] Building CXX object CMakeFiles/check.dir/tests/test1.cpp.o
+[ 66%] Linking CXX executable check
+[ 66%] Built target check
+Scanning dependencies of target gmock
+[ 75%] Building CXX object third-party/gtest/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o
+[ 83%] Linking CXX static library libgmock.a
+[ 83%] Built target gmock
+Scanning dependencies of target gmock_main
+[ 91%] Building CXX object third-party/gtest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+[100%] Linking CXX static library libgmock_main.a
+[100%] Built target gmock_main
+$ cmake --build _build --target test    # Тесты
+Running tests...
+Test project /Dimontich/workspace/projects/lab05/_build
+    Start 1: check
+1/1 Test #1: check ............................   Passed    0.00 sec
 
-addons:
-  apt:
-    sources:
-      - george-edison55-precise-backports
-    packages:
-      - cmake
-      - cmake-data
-EOF
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.01 sec
 ```
 
-Авторизация в travis
+Подробное выполнение тестов
 
 ```ShellSession
-$ travis login --github-token ${GITHUB_TOKEN}
-Successfully logged in as Dimontich!
+$ _build/check      # Исполняемый файл
+Running main() from /Dimontich/workspace/projects/lab05/third-party/gtest/googletest/src/gtest_main.cc
+[==========] Running 1 test from 1 test case.
+[----------] Global test environment set-up.
+[----------] 1 test from Print
+[ RUN      ] Print.InFileStream
+[       OK ] Print.InFileStream (1 ms)
+[----------] 1 test from Print (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test case ran. (1 ms total)
+[  PASSED  ] 1 test.
+$ cmake --build _build --target test -- ARGS=--verbose   # Тесты с подробным описанием
+Running tests...
+UpdateCTestConfiguration  from :/Dimontich/workspace/projects/lab05/_build/DartConfiguration.tcl
+UpdateCTestConfiguration  from :/Dimontich/workspace/projects/lab05/_build/DartConfiguration.tcl
+Test project /Dimontich/workspace/projects/lab05/_build
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+    Start 1: check
+
+1: Test command: /Dimontich/workspace/projects/lab05/_build/check
+1: Test timeout computed to be: 9.99988e+06
+1: Running main() from /Dimontich/workspace/projects/lab05/third-party/gtest/googletest/src/gtest_main.cc
+1: [==========] Running 1 test from 1 test case.
+1: [----------] Global test environment set-up.
+1: [----------] 1 test from Print
+1: [ RUN      ] Print.InFileStream
+1: [       OK ] Print.InFileStream (1 ms)
+1: [----------] 1 test from Print (1 ms total)
+1: 
+1: [----------] Global test environment tear-down
+1: [==========] 1 test from 1 test case ran. (1 ms total)
+1: [  PASSED  ] 1 test.
+1/1 Test #1: check ............................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.01 sec
 ```
 
-Статический анализ конфигурационного файла travis
+Обновление конфигурационного файла travis
+
+```ShellSession
+$ gsed -i 's/lab04/lab05/g' README.md
+$ gsed -i 's/\(DCMAKE_INSTALL_PREFIX=_install\)/\1 -DBUILD_TESTS=ON/' .travis.yml
+$ gsed -i '/cmake --build _build --target install/a\
+- cmake --build _build --target test -- ARGS=--verbose
+' .travis.yml
+```
+
+Анализ конфигурационного файла travis
 
 ```ShellSession
 $ travis lint
@@ -229,99 +257,48 @@ Warnings for .travis.yml:
 [x] in addons section: unexpected key apt, dropping
 ```
 
-Добавить строку с рисунком статуса сборка travis в начало README.md
-
-```ShellSession
-$ sed -i '1i [![Build Status](https://travis-ci.org/Dimontich/lab03.svg?branch=master)](https://travis-ci.org/Dimontich/lab03)' README.md
-```
-
 Отправка изменений
 
 ```ShellSession
-$ git add .travis.yml #  Фиксируем
-$ git add README.md   # Фиксируем
-$ git commit -m"added CI"   # Коммитим
-[master f408d4c] added CI
- 2 files changed, 15 insertions(+)
- create mode 100644 .travis.yml
-$ git push origin master    # Отправляем в удаленный репо
-Counting objects: 48, done.
+$ git add .travis.yml       # Фиксация
+$ git add tests             # Фиксация
+$ git add -p                # Интерактивная фиксация
+$ git commit -m"added tests"    # Коммит
+[master b4e9de6] added tests
+ 4 files changed, 41 insertions(+), 11 deletions(-)
+ create mode 100644 tests/test1.cpp
+$ git push origin master    # Отправляем
+Counting objects: 62, done.
 Delta compression using up to 8 threads.
-Compressing objects: 100% (44/44), done.
-Writing objects: 100% (48/48), 18.60 KiB | 0 bytes/s, done.
-Total 48 (delta 12), reused 0 (delta 0)
-remote: Resolving deltas: 100% (12/12), done.
+Compressing objects: 100% (56/56), done.
+Writing objects: 100% (62/62), 25.33 KiB | 0 bytes/s, done.
+Total 62 (delta 18), reused 0 (delta 0)
+remote: Resolving deltas: 100% (18/18), done.
 To https://github.com/Dimontich/lab05
  * [new branch]      master -> master
 ```
 
-Проверка работоспособности travis
+```ShellSession
+$ travis login --auto       # Авторизируемся
+Successfully logged in as Dimontich!
+$ travis enable             # Активируем CI
+Dimontich/lab05: enabled :)
+```
+
+Сохранение скриншота с результатом
 
 ```ShellSession
-$ travis lint       # Статический анализ конфигурационного файла
-Warnings for .travis.yml:
-[x] value for addons section is empty, dropping
-[x] in addons section: unexpected key apt, dropping
-$ travis accounts       # Аккаунты, привязанные к travis
-Dimontich (Dimontich): subscribed, 10 repositories
-$ travis sync           # Синхронизация с сервисом
-synchronizing: . done
-$ travis repos          # Просмотр состояний репозиториев
-Dimontich/-II (active: no, admin: yes, push: yes, pull: yes)
-Description: ???
-
-Dimontich/RK02_TiMP (active: no, admin: yes, push: yes, pull: yes)
-Description: Рубежный контроль по ТиМП
-
-Dimontich/dz-2 (active: no, admin: yes, push: yes, pull: yes)
-Description: ???
-
-Dimontich/dz-2-final (active: no, admin: yes, push: yes, pull: yes)
-Description: ???
-
-Dimontich/lab00 (active: no, admin: yes, push: yes, pull: yes)
-Description: Изучение систем обмена данными
-
-Dimontich/lab01 (active: no, admin: yes, push: yes, pull: yes)
-Description: Изучение утилит для разработки проектов
-
-Dimontich/lab02 (active: no, admin: yes, push: yes, pull: yes)
-Description: ???
-
-Dimontich/lab03 (active: no, admin: yes, push: yes, pull: yes)
-Description: ???
-
-Dimontich/lab05 (active: yes, admin: yes, push: yes, pull: yes)
-Description: ???
-
-Dimontich/laba (active: no, admin: yes, push: yes, pull: yes)
-Description: ???
-$ travis enable         # Включение CI для текущего репо
-Dimontich/lab05: enabled :)
-$ travis whatsup        # Статус
-Dimontich/lab05 passed: #1
-$ travis branches       # Ветки
-master:  #1    passed     added CI
-$ travis history        # История сборок
-#1 passed:       master added CI
-$ travis show           # Подробная информация
-Job #1.1:  added CI
-State:         passed
-Type:          push
-Branch:        master
-Compare URL:   https://github.com/Dimontich/lab05/compare/608802cba8f4^...f408d4c36e90
-Duration:      27 sec
-Started:       2019-06-10 08:29:28
-Finished:      2019-06-10 08:29:55
-Allow Failure: false
-Config:        os: linux
+$ mkdir artifacts
+$ sleep 20s && gnome-screenshot --file artifacts/screenshot.png
+# for macOS: $ screencapture -T 20 artifacts/screenshot.png
+# open https://github.com/${GITHUB_USERNAME}/lab05
 ```
 
 ## Report
 
 ```ShellSession
 $ popd
-$ export LAB_NUMBER=04
+$ export LAB_NUMBER=05
 $ git clone https://github.com/tp-labs/lab${LAB_NUMBER} tasks/lab${LAB_NUMBER}
 $ mkdir reports/lab${LAB_NUMBER}
 $ cp tasks/lab${LAB_NUMBER}/README.md reports/lab${LAB_NUMBER}/REPORT.md
@@ -332,19 +309,19 @@ $ gistup -m "lab${LAB_NUMBER}"
 
 ## Homework
 
-Вы продолжаете проходить стажировку в "Formatter Inc." (см [подробности](https://github.com/tp-labs/lab03#Homework)).
-
-В прошлый раз ваше задание заключалось в настройке автоматизированной системы **CMake**.
-
-Сейчас вам требуется настроить систему непрерывной интеграции для библиотек и приложений, с которыми вы работали в [прошлый раз](https://github.com/tp-labs/lab03#Homework). Настройте сборочные процедуры на различных платформах:
-* используйте [TravisCI](https://travis-ci.com/) для сборки на операционной системе **Linux** с использованием компиляторов **gcc** и **clang**;
-* используйте [AppVeyor](https://www.appveyor.com/) для сборки на операционной системе **Windows**.
+### Задание
+1. Создайте `CMakeList.txt` для библиотеки *banking*.
+2. Создайте модульные тесты на классы `Transaction` и `Account`.
+    * Используйте mock-объекты.
+    * Покрытие кода должно составлять 100%.
+3. Настройте сборочную процедуру на **TravisCI**.
+4. Настройте [Coveralls.io](https://coveralls.io/).
 
 ## Links
 
-- [Travis Client](https://github.com/travis-ci/travis.rb)
-- [AppVeyour](https://www.appveyor.com/)
-- [GitLab CI](https://about.gitlab.com/gitlab-ci/)
+- [C++ CI: Travis, CMake, GTest, Coveralls & Appveyor](http://david-grs.github.io/cpp-clang-travis-cmake-gtest-coveralls-appveyor/)
+- [Boost.Tests](http://www.boost.org/doc/libs/1_63_0/libs/test/doc/html/)
+- [Catch](https://github.com/catchorg/Catch2)
 
 ```
 Copyright (c) 2015-2019 The ISC Authors
