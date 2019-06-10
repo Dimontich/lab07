@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Dimontich/lab04.svg?branch=master)](https://travis-ci.org/Dimontich/lab04)
+[![Build Status](https://travis-ci.org/Dimontich/lab05.svg?branch=master)](https://travis-ci.org/Dimontich/lab05)
 
 ## Laboratory work IV
 
@@ -11,7 +11,7 @@ $ open https://travis-ci.org
 ## Tasks
 
 - [x] 1. Авторизоваться на сервисе **Travis CI** с использованием **GitHub** аккаунта
-- [x] 2. Создать публичный репозиторий с названием **lab04** на сервисе **GitHub**
+- [x] 2. Создать публичный репозиторий с названием **lab05** на сервисе **GitHub**
 - [x] 3. Ознакомиться со ссылками учебного материала
 - [x] 4. Включить интеграцию сервиса **Travis CI** с созданным репозиторием
 - [x] 5. Получить токен для **Travis CLI** с правами **repo** и **user**
@@ -172,10 +172,10 @@ Done installing documentation for multipart-post, faraday, faraday_middleware, h
 Получить необходимые файлы
 
 ```ShellSession
-$ git clone https://github.com/${GITHUB_USERNAME}/lab03 projects/lab04  # Клонирование репо
-$ cd projects/lab04   # Переход в директорию
+$ git clone https://github.com/${GITHUB_USERNAME}/lab03 projects/lab05  # Клонирование репо
+$ cd projects/lab05   # Переход в директорию
 $ git remote remove origin    # Удаление ссылки на репозиторий
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab04  # Добавление ссылки на репозиторий
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab05  # Добавление ссылки на репозиторий
 ```
 
 Добавить в конфиг travis информацию о языке (отвечает за дополнительные пакеты, которые будут установлены (например, g++ gcc))
@@ -251,7 +251,7 @@ Compressing objects: 100% (44/44), done.
 Writing objects: 100% (48/48), 18.60 KiB | 0 bytes/s, done.
 Total 48 (delta 12), reused 0 (delta 0)
 remote: Resolving deltas: 100% (12/12), done.
-To https://github.com/Dimontich/lab04
+To https://github.com/Dimontich/lab05
  * [new branch]      master -> master
 ```
 
@@ -291,15 +291,15 @@ Description: ???
 Dimontich/lab03 (active: no, admin: yes, push: yes, pull: yes)
 Description: ???
 
-Dimontich/lab04 (active: yes, admin: yes, push: yes, pull: yes)
+Dimontich/lab05 (active: yes, admin: yes, push: yes, pull: yes)
 Description: ???
 
 Dimontich/laba (active: no, admin: yes, push: yes, pull: yes)
 Description: ???
 $ travis enable         # Включение CI для текущего репо
-Dimontich/lab04: enabled :)
+Dimontich/lab05: enabled :)
 $ travis whatsup        # Статус
-Dimontich/lab04 passed: #1
+Dimontich/lab05 passed: #1
 $ travis branches       # Ветки
 master:  #1    passed     added CI
 $ travis history        # История сборок
@@ -309,7 +309,7 @@ Job #1.1:  added CI
 State:         passed
 Type:          push
 Branch:        master
-Compare URL:   https://github.com/Dimontich/lab04/compare/608802cba8f4^...f408d4c36e90
+Compare URL:   https://github.com/Dimontich/lab05/compare/608802cba8f4^...f408d4c36e90
 Duration:      27 sec
 Started:       2019-06-10 08:29:28
 Finished:      2019-06-10 08:29:55
