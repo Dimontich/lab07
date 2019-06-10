@@ -1,18 +1,23 @@
-[![Build Status](https://travis-ci.org/Dimontich/lab03.svg?branch=master)](https://travis-ci.org/Dimontich/lab03)
-## Laboratory work III
+[![Build Status](https://travis-ci.org/Dimontich/lab04.svg?branch=master)](https://travis-ci.org/Dimontich/lab04)
 
-Данная лабораторная работа посвещена изучению систем автоматизации сборки проекта на примере **CMake**
+## Laboratory work IV
+
+Данная лабораторная работа посвещена изучению систем непрерывной интеграции на примере сервиса **Travis CI**
 
 ```ShellSession
-$ open https://cmake.org/
+$ open https://travis-ci.org
 ```
 
 ## Tasks
 
-- [x] 1. Создать публичный репозиторий с названием **lab03** на сервисе **GitHub**
-- [x] 2. Ознакомиться со ссылками учебного материала
-- [x] 3. Выполнить инструкцию учебного материала
-- [x] 4. Составить отчет и отправить ссылку личным сообщением в **Slack**
+- [x] 1. Авторизоваться на сервисе **Travis CI** с использованием **GitHub** аккаунта
+- [x] 2. Создать публичный репозиторий с названием **lab04** на сервисе **GitHub**
+- [x] 3. Ознакомиться со ссылками учебного материала
+- [x] 4. Включить интеграцию сервиса **Travis CI** с созданным репозиторием
+- [x] 5. Получить токен для **Travis CLI** с правами **repo** и **user**
+- [x] 6. Получить фрагмент вставки значка сервиса **Travis CI** в формате **Markdown**
+- [x] 7. Выполнить инструкцию учебного материала
+- [x] 8. Составить отчет и отправить ссылку личным сообщением в **Slack**
 
 ## Tutorial
 
@@ -20,6 +25,7 @@ $ open https://cmake.org/
 
 ```ShellSession
 $ export GITHUB_USERNAME=Dimontich   # Установка переменной GITHUB_USERNAME
+$ export GITHUB_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXX   # Установка переменной GITHUB_TOKEN
 ```
 
 Подготовка
@@ -31,303 +37,291 @@ $ pushd .         # Сохранение директории
 $ source scripts/activate       # Выполнение скрипта 
 ```
 
-Получение необходимых файлов
-
 ```ShellSession
-$ git clone https://github.com/${GITHUB_USERNAME}/lab02.git projects/lab03   # Клонирование репо
-Cloning into 'projects/lab03'...
-remote: Enumerating objects: 27, done.
-remote: Counting objects: 100% (27/27), done.
-remote: Compressing objects: 100% (25/25), done.
-remote: Total 27 (delta 7), reused 3 (delta 0), pack-reused 0
-Unpacking objects: 100% (27/27), done.
-$ cd projects/lab03    # Переход в директорию
-$ git remote remove origin # Удаление ссылки на репозиторий
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab03.git   # Добавление ссылки на репозиторий
+$ \curl -sSL https://get.rvm.io | bash -s -- --ignore-dotfiles    # Установка rvm (ruby version manager)
+Turning on ignore dotfiles mode.
+Downloading https://github.com/rvm/rvm/archive/master.tar.gz
+Creating group 'rvm'
+Installing RVM to /usr/local/rvm/
+Installation of RVM in /usr/local/rvm/ is almost complete:
+
+  * First you need to add all users that will be using rvm to 'rvm' group,
+    and logout - login again, anyone using rvm will be operating with `umask u=rwx,g=rwx,o=rx`.
+
+  * To start using RVM you need to run `source /etc/profile.d/rvm.sh`
+    in all your open shell windows, in rare cases you need to reopen all shell windows.
+  * Please do NOT forget to add your users to the rvm group.
+     The installer no longer auto-adds root or users to the rvm group. Admins must do this.
+     Also, please note that group memberships are ONLY evaluated at login time.
+     This means that users must log out then back in before group membership takes effect!
+Thanks for installing RVM 🙏
+Please consider donating to our open collective to help us maintain RVM.
+
+👉  Donate: https://opencollective.com/rvm/donate
+$ echo "source /etc/profile.d/rvm.sh" >> scripts/activate    # Добавление команды для запуска RVM в скрипт
+$ . scripts/activate    # Выполнение скрипта (для запуска RVM)
+$ rvm autolibs disable      # Не устанавливать зависимости
+# Установить ruby 2.4.2
+$ rvm install ruby-2.4.2 # (понадобилось также установить bzip2, zlib1g-dev)
+ruby-2.4.2 - #removing src/ruby-2.4.2..
+ruby-2.4.2 - #removing rubies/ruby-2.4.2..
+Searching for binary rubies, this might take some time.
+No binary rubies available for: debian/9/x86_64/ruby-2.4.2.
+Continuing with compilation. Please read 'rvm help mount' to get more information on binary rubies.
+Installing Ruby from source to: /usr/local/rvm/rubies/ruby-2.4.2, this may take a while depending on your cpu(s)...
+ruby-2.4.2 - #downloading ruby-2.4.2, this may take a while depending on your connection...
+ruby-2.4.2 - #extracting ruby-2.4.2 to /usr/local/rvm/src/ruby-2.4.2.....
+ruby-2.4.2 - #configuring..................................................................
+ruby-2.4.2 - #post-configuration..
+ruby-2.4.2 - #compiling.............................................................................................-
+ruby-2.4.2 - #installing...........
+ruby-2.4.2 - #making binaries executable..
+ruby-2.4.2 - #downloading rubygems-3.0.3
+ruby-2.4.2 - #extracting rubygems-3.0.3......
+ruby-2.4.2 - #removing old rubygems........
+$LANG was empty, setting up LANG=C, if it fails again try setting LANG to something sane and try again.
+ruby-2.4.2 - #installing rubygems-3.0.3...................................
+ruby-2.4.2 - #gemset created /usr/local/rvm/gems/ruby-2.4.2@global
+ruby-2.4.2 - #importing gemset /usr/local/rvm/gemsets/global.gemsthere was an error installing gem rubygems-bundler
+.................................................................
+ruby-2.4.2 - #generating global wrappers.......
+ruby-2.4.2 - #gemset created /usr/local/rvm/gems/ruby-2.4.2
+ruby-2.4.2 - #importing gemsetfile /usr/local/rvm/gemsets/default.gems evaluated to empty gem list
+ruby-2.4.2 - #generating default wrappers.......
+ruby-2.4.2 - #adjusting #shebangs for (gem irb erb ri rdoc testrb rake).
+Install of ruby-2.4.2 - #complete 
+Ruby was built without documentation, to build it run: rvm docs generate-ri
+Making gemset ruby-2.4.2 pristine................................................................
+Making gemset ruby-2.4.2@global pristine.................................................................
+$ rvm use 2.4.2 --default   # Использовать ruby 2.4.2 по умолчанию
+Using /usr/local/rvm/gems/ruby-2.4.2
+$ gem install travis        # Установить пакет travis
+Fetching multipart-post-2.1.1.gem
+Fetching faraday-0.15.4.gem
+Fetching faraday_middleware-0.13.1.gem
+Fetching highline-1.7.10.gem
+Fetching backports-3.15.0.gem
+Fetching multi_json-1.13.1.gem
+Fetching addressable-2.4.0.gem
+Fetching net-http-persistent-2.9.4.gem
+Fetching net-http-pipeline-1.0.1.gem
+Fetching gh-0.15.1.gem
+Fetching launchy-2.4.3.gem
+Fetching ffi-1.11.1.gem
+Fetching ethon-0.12.0.gem
+Fetching typhoeus-0.8.0.gem
+Fetching websocket-1.2.8.gem
+Fetching pusher-client-0.6.2.gem
+Fetching travis-1.8.10.gem
+Successfully installed multipart-post-2.1.1
+Successfully installed faraday-0.15.4
+Successfully installed faraday_middleware-0.13.1
+Successfully installed highline-1.7.10
+Successfully installed backports-3.15.0
+Successfully installed multi_json-1.13.1
+Successfully installed addressable-2.4.0
+Successfully installed net-http-persistent-2.9.4
+Successfully installed net-http-pipeline-1.0.1
+Successfully installed gh-0.15.1
+Successfully installed launchy-2.4.3
+Building native extensions. This could take a while...
+Successfully installed ffi-1.11.1
+Successfully installed ethon-0.12.0
+Successfully installed typhoeus-0.8.0
+Successfully installed websocket-1.2.8
+Successfully installed pusher-client-0.6.2
+Successfully installed travis-1.8.10
+Parsing documentation for multipart-post-2.1.1
+Installing ri documentation for multipart-post-2.1.1
+Parsing documentation for faraday-0.15.4
+Installing ri documentation for faraday-0.15.4
+Parsing documentation for faraday_middleware-0.13.1
+Installing ri documentation for faraday_middleware-0.13.1
+Parsing documentation for highline-1.7.10
+Installing ri documentation for highline-1.7.10
+Parsing documentation for backports-3.15.0
+Installing ri documentation for backports-3.15.0
+Parsing documentation for multi_json-1.13.1
+Installing ri documentation for multi_json-1.13.1
+Parsing documentation for addressable-2.4.0
+Installing ri documentation for addressable-2.4.0
+Parsing documentation for net-http-persistent-2.9.4
+Installing ri documentation for net-http-persistent-2.9.4
+Parsing documentation for net-http-pipeline-1.0.1
+Installing ri documentation for net-http-pipeline-1.0.1
+Parsing documentation for gh-0.15.1
+Installing ri documentation for gh-0.15.1
+Parsing documentation for launchy-2.4.3
+Installing ri documentation for launchy-2.4.3
+Parsing documentation for ffi-1.11.1
+Installing ri documentation for ffi-1.11.1
+Parsing documentation for ethon-0.12.0
+Installing ri documentation for ethon-0.12.0
+Parsing documentation for typhoeus-0.8.0
+Installing ri documentation for typhoeus-0.8.0
+Parsing documentation for websocket-1.2.8
+Installing ri documentation for websocket-1.2.8
+Parsing documentation for pusher-client-0.6.2
+Installing ri documentation for pusher-client-0.6.2
+Parsing documentation for travis-1.8.10
+Installing ri documentation for travis-1.8.10
+Done installing documentation for multipart-post, faraday, faraday_middleware, highline, backports, multi_json, addressable, net-http-persistent, net-http-pipeline, gh, launchy, ffi, ethon, typhoeus, websocket, pusher-client, travis after 19 seconds
+17 gems installed
 ```
 
-Сборка через g++, ar
+Получить необходимые файлы
 
 ```ShellSession
-# Компиляция (Стандарт c++11, заголовочные файлы препроцессор тянет из директории ./include)
-$ g++ -std=c++11 -I./include -c sources/print.cpp # (компилируем sources/print.cpp)
-$ ls print.o        # Проверим, создался ли файл
-print.o
-$ nm print.o | grep print           # Получение сигнатур функций, содержащих print
-0000000000000095 t _GLOBAL__sub_I__Z5printRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSo
-0000000000000000 T _Z5printRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSo
-0000000000000026 T _Z5printRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt14basic_ofstreamIcS2_E
-$ ar rvs print.a print.o # Добавим файл print.o в статическую библиотеку (архив без сжатия) print.a
-ar: creating print.a
-a - print.o
-$ file print.a      # Информация о файле print.a
-print.a: current ar archive
-$ g++ -std=c++11 -I./include -c examples/example1.cpp   # Аналогично
-$ ls example1.o   # Проверим, создался ли файл
-example1.o
-$ g++ example1.o print.a -o example1    # Линковка example1.o и print.a в example1
-$ ./example1 && echo                # Исполнение исполняемого файла
-hello
+$ git clone https://github.com/${GITHUB_USERNAME}/lab03 projects/lab04  # Клонирование репо
+$ cd projects/lab04   # Переход в директорию
+$ git remote remove origin    # Удаление ссылки на репозиторий
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab04  # Добавление ссылки на репозиторий
 ```
 
-Сборка через g++, ar
+Добавить в конфиг travis информацию о языке (отвечает за дополнительные пакеты, которые будут установлены (например, g++ gcc))
 
 ```ShellSession
-$ g++ -std=c++11 -I./include -c examples/example2.cpp # Компиляция (аналогично)
-$ nm example2.o         # Посмотрим сигнатуры функций в этой файле
-0000000000000000 V DW.ref.__gxx_personality_v0
-                 U _GLOBAL_OFFSET_TABLE_
-0000000000000134 t _GLOBAL__sub_I_main
-                 U _Unwind_Resume
-00000000000000eb t _Z41__static_initialization_and_destruction_0ii
-                 U _Z5printRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt14basic_ofstreamIcS2_E
-                 U _ZNSaIcEC1Ev
-                 U _ZNSaIcED1Ev
-                 U _ZNSt14basic_ofstreamIcSt11char_traitsIcEEC1EPKcSt13_Ios_Openmode
-                 U _ZNSt14basic_ofstreamIcSt11char_traitsIcEED1Ev
-                 U _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1EPKcRKS3_
-                 U _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
-                 U _ZNSt8ios_base4InitC1Ev
-                 U _ZNSt8ios_base4InitD1Ev
-0000000000000000 r _ZStL19piecewise_construct
-0000000000000000 b _ZStL8__ioinit
-0000000000000000 W _ZStorSt13_Ios_OpenmodeS_
-                 U __cxa_atexit
-                 U __dso_handle
-                 U __gxx_personality_v0
-0000000000000000 T main
-$ g++ example2.o print.a -o example2            # Компиляция (аналогично)
-$ ./example2                            # Исполнение
-$ cat log.txt && echo     # Вывод в консоль log.txt
-hello
-```
-
-Удаление лишних файлов
-
-```ShellSession
-$ rm -rf example1.o example2.o print.o
-$ rm -rf print.a
-$ rm -rf example1 example2
-$ rm -rf log.txt
-```
-
-Создание CMakeLists.txt (описали минимальную версию и название проекта)
-
-```ShellSession
-$ cat > CMakeLists.txt <<EOF
-cmake_minimum_required(VERSION 3.4)
-project(print)
+$ cat > .travis.yml <<EOF
+language: cpp
 EOF
 ```
 
-Описали стандарт C++ (и указали, что выполнение обязательно)
+Добавить в конфиг travis команды, которые будут выполнены после загрузки и установки 
 
 ```ShellSession
-$ cat >> CMakeLists.txt <<EOF
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+$ cat >> .travis.yml <<EOF
+
+script:
+- cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install
+- cmake --build _build
+- cmake --build _build --target install
 EOF
 ```
 
-Описали цель: статическая библиотека print (в нее поместится скомпилированный указанный cpp файл)
+Добавить в конфиг travis информацию об установке пакетов
 
 ```ShellSession
-$ cat >> CMakeLists.txt <<EOF
-add_library(print STATIC \${CMAKE_CURRENT_SOURCE_DIR}/sources/print.cpp)
+$ cat >> .travis.yml <<EOF
+
+addons:
+  apt:
+    sources:
+      - george-edison55-precise-backports
+    packages:
+      - cmake
+      - cmake-data
 EOF
 ```
 
-Указание препроцессору на директорию, из которой надо тащить заголовочные файлы
+Авторизация в travis
 
 ```ShellSession
-$ cat >> CMakeLists.txt <<EOF
-include_directories(\${CMAKE_CURRENT_SOURCE_DIR}/include)
-EOF
+$ travis login --github-token ${GITHUB_TOKEN}
+Successfully logged in as Dimontich!
 ```
 
-Сборка через cmake
+Статический анализ конфигурационного файла travis
 
 ```ShellSession
-$ cmake -H. -B_build        # Конфигурирование
--- The C compiler identification is GNU 6.3.0
--- The CXX compiler identification is GNU 6.3.0
--- Check for working C compiler: /usr/bin/cc
--- Check for working C compiler: /usr/bin/cc -- works
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Detecting C compile features
--- Detecting C compile features - done
--- Check for working CXX compiler: /usr/bin/c++
--- Check for working CXX compiler: /usr/bin/c++ -- works
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Detecting CXX compile features
--- Detecting CXX compile features - done
--- Configuring done
--- Generating done
--- Build files have been written to: /Dimontich/workspace/projects/lab03/_build
-$ cmake --build _build          # Сборка
-Scanning dependencies of target print
-[ 50%] Building CXX object CMakeFiles/print.dir/sources/print.cpp.o
-[100%] Linking CXX static library libprint.a
-[100%] Built target print
+$ travis lint
+Warnings for .travis.yml:
+[x] value for addons section is empty, dropping
+[x] in addons section: unexpected key apt, dropping
 ```
 
-Описание цели: исполняемый example1 и example2 с соответствующими cpp файлами
+Добавить строку с рисунком статуса сборка travis в начало README.md
 
 ```ShellSession
-$ cat >> CMakeLists.txt <<EOF
-
-add_executable(example1 \${CMAKE_CURRENT_SOURCE_DIR}/examples/example1.cpp)
-add_executable(example2 \${CMAKE_CURRENT_SOURCE_DIR}/examples/example2.cpp)
-EOF
+$ sed -i '1i [![Build Status](https://travis-ci.org/Dimontich/lab03.svg?branch=master)](https://travis-ci.org/Dimontich/lab03)' README.md
 ```
 
-```ShellSession
-$ cat >> CMakeLists.txt <<EOF
-
-target_link_libraries(example1 print)
-target_link_libraries(example2 print)
-EOF
-```
+Отправка изменений
 
 ```ShellSession
-$ cmake --build _build          # Конфигурирование
--- Configuring done
--- Generating done
--- Build files have been written to: /Dimontich/workspace/projects/lab03/_build
-[ 33%] Built target print
-Scanning dependencies of target example1
-[ 50%] Building CXX object CMakeFiles/example1.dir/examples/example1.cpp.o
-[ 66%] Linking CXX executable example1
-[ 66%] Built target example1
-Scanning dependencies of target example2
-[ 83%] Building CXX object CMakeFiles/example2.dir/examples/example2.cpp.o
-[100%] Linking CXX executable example2
-[100%] Built target example2
-$ cmake --build _build --target print           # Сборка цели print
-[100%] Built target print
-$ cmake --build _build --target example1   # Сборка цели example1
-[ 50%] Built target print
-[100%] Built target example1
-$ cmake --build _build --target example2   # Сборка цели example1
-[ 50%] Built target print
-[100%] Built target example2
-```
-
-```ShellSession
-$ ls -la _build/libprint.a          # Проверим, существует ли файл
--rw-r--r-- 1 root root 3134 Jun  9 21:05 _build/libprint.a
-$ _build/example1 && echo           # Выполним исполняемый файл example1
-hello
-$ _build/example2    # Выполним исполняемый файл example2
-$ cat log.txt && echo    # Вывод файла в консоль
-hello
-$ rm -rf log.txt         # Удалить
-```
-
-Вытянуть CMakeLists.txt из https://github.com/tp-labs/lab03
-
-```ShellSession
-$ git clone https://github.com/tp-labs/lab03 tmp
-Cloning into 'tmp'...
-remote: Enumerating objects: 73, done.
-remote: Total 73 (delta 0), reused 0 (delta 0), pack-reused 73
-Unpacking objects: 100% (73/73), done.
-$ mv -f tmp/CMakeLists.txt .
-$ rm -rf tmp
-```
-
-
-
-```ShellSession
-$ cat CMakeLists.txt
-cmake_minimum_required(VERSION 3.4)
-
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-option(BUILD_EXAMPLES "Build examples" OFF)
-
-project(print)
-
-add_library(print STATIC ${CMAKE_CURRENT_SOURCE_DIR}/sources/print.cpp)
-
-target_include_directories(print PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>
-)
-
-if(BUILD_EXAMPLES)
-  file(GLOB EXAMPLE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/examples/*.cpp")
-  foreach(EXAMPLE_SOURCE ${EXAMPLE_SOURCES})
-    get_filename_component(EXAMPLE_NAME ${EXAMPLE_SOURCE} NAME_WE)
-    add_executable(${EXAMPLE_NAME} ${EXAMPLE_SOURCE})
-    target_link_libraries(${EXAMPLE_NAME} print)
-    install(TARGETS ${EXAMPLE_NAME}
-      RUNTIME DESTINATION bin
-    )
-  endforeach(EXAMPLE_SOURCE ${EXAMPLE_SOURCES})
-endif()
-
-install(TARGETS print
-    EXPORT print-config
-    ARCHIVE DESTINATION lib
-    LIBRARY DESTINATION lib
-)
-
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/ DESTINATION include)
-install(EXPORT print-config DESTINATION cmake)
-$ cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install        # Конфигурирование
--- Configuring done
--- Generating done
--- Build files have been written to: /Dimontich/workspace/projects/lab03/_build
-$ cmake --build _build --target install # Установка
-[100%] Built target print
-Install the project...
--- Install configuration: ""
--- Installing: /Dimontich/workspace/projects/lab03/_install/lib/libprint.a
--- Installing: /Dimontich/workspace/projects/lab03/_install/include
--- Installing: /Dimontich/workspace/projects/lab03/_install/include/print.hpp
--- Installing: /Dimontich/workspace/projects/lab03/_install/cmake/print-config.cmake
--- Installing: /Dimontich/workspace/projects/lab03/_install/cmake/print-config-noconfig.cmake
-$ tree _install   # Вывод дерева файлов
-_install
-|-- cmake
-|   |-- print-config-noconfig.cmake
-|   `-- print-config.cmake
-|-- include
-|   `-- print.hpp
-`-- lib
-    `-- libprint.a
-
-3 directories, 4 files
-```
-
-Отправка изменений на удаленный репозиторий
-
-```ShellSession
-$ git add CMakeLists.txt            # Фиксация
-$ git commit -m"added CMakeLists.txt"    # Коммит
-[master 68b087e] added CMakeLists.txt
- 1 file changed, 36 insertions(+)
- create mode 100644 CMakeLists.txt
-$ git push origin master       # Отправка
-Counting objects: 39, done.
+$ git add .travis.yml #  Фиксируем
+$ git add README.md   # Фиксируем
+$ git commit -m"added CI"   # Коммитим
+[master f408d4c] added CI
+ 2 files changed, 15 insertions(+)
+ create mode 100644 .travis.yml
+$ git push origin master    # Отправляем в удаленный репо
+Counting objects: 48, done.
 Delta compression using up to 8 threads.
-Compressing objects: 100% (35/35), done.
-Writing objects: 100% (39/39), 12.37 KiB | 0 bytes/s, done.
-Total 39 (delta 9), reused 0 (delta 0)
-remote: Resolving deltas: 100% (9/9), done.
-To https://github.com/Dimontich/lab03.git
+Compressing objects: 100% (44/44), done.
+Writing objects: 100% (48/48), 18.60 KiB | 0 bytes/s, done.
+Total 48 (delta 12), reused 0 (delta 0)
+remote: Resolving deltas: 100% (12/12), done.
+To https://github.com/Dimontich/lab04
  * [new branch]      master -> master
+```
+
+Проверка работоспособности travis
+
+```ShellSession
+$ travis lint       # Статический анализ конфигурационного файла
+Warnings for .travis.yml:
+[x] value for addons section is empty, dropping
+[x] in addons section: unexpected key apt, dropping
+$ travis accounts       # Аккаунты, привязанные к travis
+Dimontich (Dimontich): subscribed, 10 repositories
+$ travis sync           # Синхронизация с сервисом
+synchronizing: . done
+$ travis repos          # Просмотр состояний репозиториев
+Dimontich/-II (active: no, admin: yes, push: yes, pull: yes)
+Description: ???
+
+Dimontich/RK02_TiMP (active: no, admin: yes, push: yes, pull: yes)
+Description: Рубежный контроль по ТиМП
+
+Dimontich/dz-2 (active: no, admin: yes, push: yes, pull: yes)
+Description: ???
+
+Dimontich/dz-2-final (active: no, admin: yes, push: yes, pull: yes)
+Description: ???
+
+Dimontich/lab00 (active: no, admin: yes, push: yes, pull: yes)
+Description: Изучение систем обмена данными
+
+Dimontich/lab01 (active: no, admin: yes, push: yes, pull: yes)
+Description: Изучение утилит для разработки проектов
+
+Dimontich/lab02 (active: no, admin: yes, push: yes, pull: yes)
+Description: ???
+
+Dimontich/lab03 (active: no, admin: yes, push: yes, pull: yes)
+Description: ???
+
+Dimontich/lab04 (active: yes, admin: yes, push: yes, pull: yes)
+Description: ???
+
+Dimontich/laba (active: no, admin: yes, push: yes, pull: yes)
+Description: ???
+$ travis enable         # Включение CI для текущего репо
+Dimontich/lab04: enabled :)
+$ travis whatsup        # Статус
+Dimontich/lab04 passed: #1
+$ travis branches       # Ветки
+master:  #1    passed     added CI
+$ travis history        # История сборок
+#1 passed:       master added CI
+$ travis show           # Подробная информация
+Job #1.1:  added CI
+State:         passed
+Type:          push
+Branch:        master
+Compare URL:   https://github.com/Dimontich/lab04/compare/608802cba8f4^...f408d4c36e90
+Duration:      27 sec
+Started:       2019-06-10 08:29:28
+Finished:      2019-06-10 08:29:55
+Allow Failure: false
+Config:        os: linux
 ```
 
 ## Report
 
 ```ShellSession
 $ popd
-$ export LAB_NUMBER=03
+$ export LAB_NUMBER=04
 $ git clone https://github.com/tp-labs/lab${LAB_NUMBER} tasks/lab${LAB_NUMBER}
 $ mkdir reports/lab${LAB_NUMBER}
 $ cp tasks/lab${LAB_NUMBER}/README.md reports/lab${LAB_NUMBER}/REPORT.md
@@ -338,36 +332,19 @@ $ gistup -m "lab${LAB_NUMBER}"
 
 ## Homework
 
-Представьте, что вы стажер в компании "Formatter Inc.".
-### Задание 1
-Вам поручили перейти на систему автоматизированной сборки **CMake**.
-Исходные файлы находятся в директории [formatter_lib](formatter_lib).
-В этой директории находятся файлы для статической библиотеки *formatter*.
-Создайте `CMakeList.txt` в директории [formatter_lib](formatter_lib),
-с помощью которого можно будет собирать статическую библиотеку *formatter*.
+Вы продолжаете проходить стажировку в "Formatter Inc." (см [подробности](https://github.com/tp-labs/lab03#Homework)).
 
-### Задание 2
-У компании "Formatter Inc." есть перспективная библиотека,
-которая является расширением предыдущей библиотеки. Т.к. вы уже овладели
-навыком созданием `CMakeList.txt` для статической библиотеки *formatter*, ваш 
-руководитель поручает заняться созданием `CMakeList.txt` для библиотеки 
-*formatter_ex*, которая в свою очередь использует библиотеку *formatter*.
+В прошлый раз ваше задание заключалось в настройке автоматизированной системы **CMake**.
 
-### Задание 3
-Конечно же ваша компания предоставляет примеры использования своих библиотек.
-Чтобы продемонстрировать как работать с библиотекой *formatter_ex*,
-вам необходимо создать два `CMakeList.txt` для двух простых приложений:
-* *hello_world*, которое использует библиотеку *formatter_ex*;
-* *solver*, приложение которое испольует статические библиотеки *formatter_ex* и *solver_lib*.
-
-**Удачной стажировки!**
+Сейчас вам требуется настроить систему непрерывной интеграции для библиотек и приложений, с которыми вы работали в [прошлый раз](https://github.com/tp-labs/lab03#Homework). Настройте сборочные процедуры на различных платформах:
+* используйте [TravisCI](https://travis-ci.com/) для сборки на операционной системе **Linux** с использованием компиляторов **gcc** и **clang**;
+* используйте [AppVeyor](https://www.appveyor.com/) для сборки на операционной системе **Windows**.
 
 ## Links
-- [Основы сборки проектов на С/C++ при помощи CMake](https://eax.me/cmake/)
-- [CMake Tutorial](http://neerc.ifmo.ru/wiki/index.php?title=CMake_Tutorial)
-- [C++ Tutorial - make & CMake](https://www.bogotobogo.com/cplusplus/make.php)
-- [Autotools](http://www.gnu.org/software/automake/manual/html_node/Autotools-Introduction.html)
-- [CMake](https://cgold.readthedocs.io/en/latest/index.html)
+
+- [Travis Client](https://github.com/travis-ci/travis.rb)
+- [AppVeyour](https://www.appveyor.com/)
+- [GitLab CI](https://about.gitlab.com/gitlab-ci/)
 
 ```
 Copyright (c) 2015-2019 The ISC Authors
